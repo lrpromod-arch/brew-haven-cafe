@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Brew Haven Café — Fresh Coffee, Warm Moments.</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>☕</text></svg>"/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Lora:ital,wght@0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap"/>
+<style>
+/* ============================================================
+   BREW HAVEN CAFÉ — All-in-one SPA
+   ============================================================ */
+:root{
+  --espresso:#1a0f0a;--roast:#3b1f10;--walnut:#6b3a2a;
+  --caramel:#c07c3a;--honey:#e8a54b;--cream:#f5ead8;
+  --latte:#f9f3e8;--foam:#fdfaf4;--sage:#7a8c6e;
+  --ff-d:'Playfair Display',Georgia,serif;
+  --ff-b:'Lora',Georgia,serif;
+  --ff-u:'DM Sans',sans-serif;
+  --nav-h:72px;--max-w:1180px;
+  --shadow:0 4px 32px rgba(26,15,10,.12);
+  --shadow-lg:0 12px 64px rgba(26,15,10,.18);
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:var(--ff-b);background:var(--foam);color:var(--espresso);line-height:1.7;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4{font-family:var(--ff-d);line-height:1.2}
+h1{font-size:clamp(2.4rem,6vw,5rem)}
+h2{font-size:clamp(1.8rem,4vw,3rem)}
+h3{font-size:clamp(1.2rem,2.5vw,1.6rem)}
+p{font-size:1.05rem;color:var(--roast)}
+
+/* ── Utility ── */
+.container{max-width:var(--max-w);margin:0 auto;padding:0 24px}
+.text-center{text-align:center}
+.section-label{font-family:var(--ff-u);font-size:.72rem;font-weight:500;letter-spacing:.22em;text-transform:uppercase;color:var(--caramel);display:block;margin-bottom:12px}
+.btn{display:inline-block;font-family:var(--ff-u);font-size:.85rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:14px 36px;border-radius:2px;cursor:pointer;transition:all .3s ease;border:none}
+.btn-primary{background:var(--caramel);color:var(--foam)}
+.btn-primary:hover{background:var(--walnut);transform:translateY(-2px);box-shadow:0 8px 24px rgba(192,124,58,.35)}
+.btn-outline{background:transparent;color:var(--foam);border:1.5px solid rgba(245,234,216,.6)}
+.btn-outline:hover{background:rgba(245,234,216,.12);border-color:var(--foam)}
+.section{padding:96px 24px}
+.section-dark{background:var(--espresso)}
+.section-cream{background:var(--cream)}
+.section-header{margin-bottom:56px}
+.section-header h2{margin-top:8px}
+.section-header p{margin-top:16px;max-width:520px;color:var(--walnut)}
+.section-header.centered{text-align:center}
+.section-header.centered p{margin:16px auto 0}
+
+/* ── Pages (SPA) ── */
+.page{display:none;min-height:100vh}
+.page.active{display:block}
+
+/* ============================================================
+   NAVIGATION
+   ============================================================ */
+.nav{position:fixed;top:0;left:0;right:0;height:var(--nav-h);z-index:1000;transition:background .4s,box-shadow .4s}
+.nav.scrolled{background:var(--espresso);box-shadow:0 2px 24px rgba(0,0,0,.3)}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:100%;max-width:var(--max-w);margin:0 auto;padding:0 24px}
+.nav-logo{display:flex;align-items:center;gap:10px;color:var(--foam);cursor:pointer}
+.nav-logo-icon{font-size:1.5rem}
+.nav-logo-name{font-family:var(--ff-d);font-size:1.3rem;font-weight:700;letter-spacing:.02em}
+.nav-links{display:flex;align-items:center;gap:36px;list-style:none}
+.nav-links a{font-family:var(--ff-u);font-size:.82rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:rgba(253,250,244,.8);transition:color .2s;position:relative;cursor:pointer}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1.5px;background:var(--honey);transition:width .3s}
+.nav-links a:hover,.nav-links a.active{color:var(--honey)}
+.nav-links a:hover::after,.nav-links a.active::after{width:100%}
+.nav-toggle{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:4px;background:none;border:none}
+.nav-toggle span{display:block;width:24px;height:2px;background:var(--foam);border-radius:2px;transition:all .3s}
+.nav-toggle.open span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.nav-toggle.open span:nth-child(2){opacity:0}
+.nav-toggle.open span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.mobile-menu{display:none;position:fixed;top:var(--nav-h);left:0;right:0;background:var(--espresso);padding:24px;z-index:999;flex-direction:column;gap:4px}
+.mobile-menu.open{display:flex}
+.mobile-menu a{font-family:var(--ff-u);font-size:1rem;font-weight:500;color:rgba(253,250,244,.85);padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06);letter-spacing:.08em;text-transform:uppercase;transition:color .2s;cursor:pointer}
+.mobile-menu a:hover{color:var(--honey)}
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+.footer{background:var(--espresso);color:var(--cream);padding:72px 24px 32px}
+.footer-grid{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:48px;padding-bottom:48px;border-bottom:1px solid rgba(255,255,255,.08)}
+.footer-brand h3{font-size:1.5rem;color:var(--foam);margin-bottom:12px}
+.footer-brand p{color:rgba(245,234,216,.55);font-size:.95rem;margin-bottom:20px;line-height:1.8}
+.footer-socials{display:flex;gap:12px}
+.footer-socials a{width:38px;height:38px;border:1px solid rgba(255,255,255,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:.9rem;transition:all .3s;cursor:pointer}
+.footer-socials a:hover{background:var(--caramel);border-color:var(--caramel)}
+.footer-col h4{font-family:var(--ff-u);font-size:.72rem;font-weight:500;letter-spacing:.2em;text-transform:uppercase;color:var(--honey);margin-bottom:18px}
+.footer-col ul{list-style:none}
+.footer-col ul li{font-size:.92rem;color:rgba(245,234,216,.55);margin-bottom:10px;transition:color .2s;cursor:pointer}
+.footer-col ul li:hover{color:var(--cream)}
+.footer-col ul li a{color:rgba(245,234,216,.55);transition:color .2s;cursor:pointer}
+.footer-col ul li a:hover{color:var(--cream)}
+.footer-hours-row{display:flex;justify-content:space-between;font-size:.88rem;color:rgba(245,234,216,.55);margin-bottom:8px}
+.footer-hours-row strong{color:var(--cream)}
+.footer-bottom{max-width:var(--max-w);margin:24px auto 0;display:flex;justify-content:space-between;align-items:center;font-family:var(--ff-u);font-size:.78rem;color:rgba(245,234,216,.3)}
+
+/* ============================================================
+   PAGE HERO (inner pages)
+   ============================================================ */
+.page-hero{height:340px;display:flex;align-items:center;justify-content:center;position:relative;overflow:hidden}
+.page-hero-bg{position:absolute;inset:0;background:linear-gradient(135deg,var(--espresso) 0%,var(--roast) 60%,var(--walnut) 100%)}
+.page-hero-bg::before{content:'';position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23c07c3a' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E")}
+.page-hero-content{position:relative;text-align:center;color:var(--foam);padding-top:var(--nav-h)}
+.page-hero-content h1{font-size:clamp(2rem,5vw,3.5rem);font-style:italic}
+.page-hero-content p{color:rgba(245,234,216,.7);margin-top:10px;font-size:1rem}
+.breadcrumb{font-family:var(--ff-u);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--honey);margin-bottom:14px}
+.breadcrumb span{color:rgba(245,234,216,.4);margin:0 8px}
+
+/* ============================================================
+   HOME — HERO
+   ============================================================ */
+.hero{position:relative;height:100vh;min-height:640px;display:flex;align-items:center;overflow:hidden}
+.hero-bg{position:absolute;inset:0;background:linear-gradient(115deg,#0d0603 0%,#2a1509 45%,#3b1f10 100%)}
+.hero-bg::before{content:'';position:absolute;right:-180px;top:50%;transform:translateY(-50%);width:720px;height:720px;border-radius:50%;background:radial-gradient(circle at 35% 40%,rgba(192,124,58,.18) 0%,rgba(107,58,42,.12) 40%,transparent 70%);animation:pulse-ring 6s ease-in-out infinite}
+.hero-bg::after{content:'';position:absolute;right:60px;top:50%;transform:translateY(-50%);width:480px;height:480px;border-radius:50%;border:1px solid rgba(192,124,58,.2);animation:pulse-ring 6s ease-in-out 1s infinite}
+.grain{position:absolute;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");opacity:.5}
+@keyframes pulse-ring{0%,100%{transform:translateY(-50%) scale(1);opacity:1}50%{transform:translateY(-50%) scale(1.04);opacity:.7}}
+.hero-content{position:relative;max-width:var(--max-w);margin:0 auto;padding:0 24px;padding-top:var(--nav-h);width:100%}
+.hero-eyebrow{display:inline-flex;align-items:center;gap:12px;font-family:var(--ff-u);font-size:.72rem;font-weight:500;letter-spacing:.25em;text-transform:uppercase;color:var(--honey);margin-bottom:28px;animation:fade-up .8s ease both}
+.hero-eyebrow::before,.hero-eyebrow::after{content:'';display:block;width:32px;height:1px;background:var(--caramel)}
+.hero h1{color:var(--foam);max-width:640px;font-style:italic;animation:fade-up .8s ease .15s both}
+.hero h1 em{color:var(--honey);font-style:normal}
+.hero-tagline{color:rgba(245,234,216,.65);font-size:1.15rem;margin:20px 0 40px;max-width:420px;animation:fade-up .8s ease .3s both}
+.hero-actions{display:flex;gap:16px;flex-wrap:wrap;animation:fade-up .8s ease .45s both}
+.hero-scroll{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;color:rgba(245,234,216,.4);font-family:var(--ff-u);font-size:.68rem;letter-spacing:.15em;text-transform:uppercase;animation:fade-in 1.2s ease 1s both}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--caramel),transparent);animation:scroll-drop 2s ease infinite}
+@keyframes scroll-drop{0%{transform:scaleY(0);transform-origin:top;opacity:0}50%{transform:scaleY(1);transform-origin:top;opacity:1}100%{transform:scaleY(1);transform-origin:bottom;opacity:0}}
+
+/* ── Drink Cards ── */
+.drinks-grid{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.drink-card{background:var(--latte);border-radius:6px;overflow:hidden;transition:transform .35s,box-shadow .35s;position:relative}
+.drink-card:hover{transform:translateY(-8px);box-shadow:var(--shadow-lg)}
+.drink-card-img{height:220px;display:flex;align-items:center;justify-content:center;font-size:5rem;position:relative;overflow:hidden}
+.drink-card:nth-child(1) .drink-card-img{background:linear-gradient(135deg,#2d1509,#4a2010)}
+.drink-card:nth-child(2) .drink-card-img{background:linear-gradient(135deg,#1a3a2a,#2d5c40)}
+.drink-card:nth-child(3) .drink-card-img{background:linear-gradient(135deg,#2a1f0a,#4a3518)}
+.drink-card:nth-child(4) .drink-card-img{background:linear-gradient(135deg,#1f1a35,#352d5c)}
+.drink-card:nth-child(5) .drink-card-img{background:linear-gradient(135deg,#2a0f14,#5c1f2a)}
+.drink-card:nth-child(6) .drink-card-img{background:linear-gradient(135deg,#0a2a1f,#1f5040)}
+.drink-badge{position:absolute;top:14px;right:14px;background:var(--caramel);color:var(--foam);font-family:var(--ff-u);font-size:.65rem;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:4px 10px;border-radius:2px}
+.drink-card-body{padding:24px}
+.drink-card-body h3{margin-bottom:8px;color:var(--espresso)}
+.drink-card-body p{font-size:.9rem;color:var(--walnut);margin-bottom:18px;line-height:1.6}
+.drink-card-footer{display:flex;justify-content:space-between;align-items:center}
+.drink-price{font-family:var(--ff-d);font-size:1.3rem;font-weight:700;color:var(--caramel)}
+.drink-tag{font-family:var(--ff-u);font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);background:rgba(122,140,110,.1);padding:4px 10px;border-radius:20px}
+
+/* ── Story Strip ── */
+.story-strip{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.story-visual{position:relative;height:480px}
+.story-img-main{width:75%;height:100%;background:linear-gradient(160deg,var(--roast),var(--walnut));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:7rem;box-shadow:var(--shadow-lg)}
+.story-img-accent{position:absolute;bottom:-24px;right:0;width:48%;height:52%;background:linear-gradient(160deg,var(--caramel),var(--honey));border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:4rem;box-shadow:var(--shadow);border:4px solid var(--foam)}
+.story-text{padding:24px 0}
+.story-text h2{margin-bottom:20px}
+.story-text p{margin-bottom:16px;line-height:1.85}
+.story-stats{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin:36px 0}
+.stat-item{border-left:3px solid var(--caramel);padding-left:16px}
+.stat-num{font-family:var(--ff-d);font-size:2rem;font-weight:700;color:var(--espresso);line-height:1}
+.stat-label{font-family:var(--ff-u);font-size:.78rem;letter-spacing:.1em;text-transform:uppercase;color:var(--sage);margin-top:4px}
+
+/* ── Hours Banner ── */
+.hours-banner{background:var(--caramel);padding:48px 24px}
+.hours-inner{max-width:var(--max-w);margin:0 auto;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:32px}
+.hours-title{font-family:var(--ff-d);font-size:1.6rem;color:var(--foam);font-style:italic}
+.hours-grid{display:flex;gap:48px;flex-wrap:wrap}
+.hours-item{color:var(--foam);text-align:center}
+.hours-item .day{font-family:var(--ff-u);font-size:.7rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:rgba(253,250,244,.7);margin-bottom:6px}
+.hours-item .time{font-family:var(--ff-d);font-size:1.1rem;font-weight:600}
+
+/* ── Testimonials ── */
+.testimonials-grid{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:repeat(3,1fr);gap:28px}
+.testimonial-card{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:6px;padding:32px}
+.stars{color:var(--honey);font-size:.9rem;letter-spacing:2px;margin-bottom:16px}
+.testimonial-card blockquote{font-family:var(--ff-b);font-style:italic;color:rgba(245,234,216,.8);font-size:.98rem;line-height:1.8;margin-bottom:24px}
+.testimonial-author{display:flex;align-items:center;gap:12px}
+.author-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0}
+.a1{background:linear-gradient(135deg,#e8a54b,#c07c3a)}
+.a2{background:linear-gradient(135deg,#7a8c6e,#4a5c40)}
+.a3{background:linear-gradient(135deg,#c07c3a,#6b3a2a)}
+.author-name{font-family:var(--ff-u);font-size:.88rem;font-weight:500;color:var(--cream)}
+.author-role{font-family:var(--ff-u);font-size:.72rem;color:rgba(245,234,216,.4);margin-top:2px}
+
+/* ── CTA Banner ── */
+.cta-banner{padding:96px 24px;background:linear-gradient(135deg,var(--roast) 0%,var(--espresso) 100%);position:relative;overflow:hidden;text-align:center}
+.cta-banner::before{content:'☕';position:absolute;font-size:22rem;opacity:.04;top:50%;left:50%;transform:translate(-50%,-50%);pointer-events:none}
+.cta-banner h2{color:var(--foam);margin-bottom:16px}
+.cta-banner p{color:rgba(245,234,216,.6);margin-bottom:40px}
+.cta-actions{display:flex;gap:16px;justify-content:center;flex-wrap:wrap}
+
+/* ============================================================
+   ABOUT PAGE
+   ============================================================ */
+.about-intro{max-width:var(--max-w);margin:0 auto 96px;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.about-img-stack{position:relative;height:500px}
+.aimg{position:absolute;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:5rem;box-shadow:var(--shadow-lg)}
+.aimg-1{width:70%;height:75%;top:0;left:0;background:linear-gradient(145deg,#2a1509,#4a2a14)}
+.aimg-2{width:55%;height:55%;bottom:0;right:0;background:linear-gradient(145deg,#c07c3a,#8a5020);border:4px solid var(--foam);font-size:4rem}
+.about-text h2{margin-bottom:20px}
+.about-text p{margin-bottom:16px}
+.values-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px;max-width:var(--max-w);margin:0 auto}
+.value-card{text-align:center;padding:40px 28px;background:var(--latte);border-radius:6px;border-top:3px solid var(--caramel)}
+.value-icon{font-size:2.5rem;margin-bottom:20px}
+.value-card h3{margin-bottom:12px}
+.value-card p{font-size:.92rem}
+.team-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;max-width:var(--max-w);margin:0 auto}
+.team-card{text-align:center}
+.team-avatar{width:130px;height:130px;border-radius:50%;margin:0 auto 20px;display:flex;align-items:center;justify-content:center;font-size:3.5rem;box-shadow:var(--shadow)}
+.t1{background:linear-gradient(135deg,#6b3a2a,#c07c3a)}
+.t2{background:linear-gradient(135deg,#2a3a20,#5a7a40)}
+.t3{background:linear-gradient(135deg,#2a1f3a,#5a4a7a)}
+.team-card h3{margin-bottom:4px}
+.team-role{font-family:var(--ff-u);font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--caramel);margin-bottom:12px}
+.team-card p{font-size:.9rem}
+.timeline{max-width:720px;margin:0 auto;position:relative;padding-left:32px;border-left:2px solid rgba(192,124,58,.25)}
+.tl-item{margin-bottom:40px;position:relative}
+.tl-dot{position:absolute;left:-41px;width:16px;height:16px;border-radius:50%;background:var(--caramel);border:3px solid var(--foam);box-shadow:0 0 0 2px var(--caramel)}
+.tl-year{font-family:var(--ff-u);font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;color:var(--caramel);margin-bottom:6px}
+.tl-item h3{font-size:1.1rem;margin-bottom:8px}
+.tl-item p{font-size:.92rem}
+
+/* ============================================================
+   MENU PAGE
+   ============================================================ */
+.menu-tabs{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin-bottom:52px}
+.menu-tab{font-family:var(--ff-u);font-size:.78rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;padding:10px 24px;border-radius:2px;cursor:pointer;border:1.5px solid rgba(107,58,42,.25);background:transparent;color:var(--walnut);transition:all .25s}
+.menu-tab.active,.menu-tab:hover{background:var(--espresso);border-color:var(--espresso);color:var(--foam)}
+.menu-section{display:none}
+.menu-section.active{display:block}
+.menu-category{max-width:var(--max-w);margin:0 auto 56px}
+.menu-cat-title{font-family:var(--ff-d);font-size:1.5rem;color:var(--espresso);margin-bottom:8px;padding-bottom:16px;border-bottom:1px solid rgba(107,58,42,.15)}
+.menu-items-list{display:grid;grid-template-columns:1fr 1fr;gap:0}
+.menu-item{display:flex;justify-content:space-between;align-items:flex-start;padding:20px 0;border-bottom:1px dashed rgba(107,58,42,.12);gap:16px}
+.menu-item:last-child{border-bottom:none}
+.menu-item-info h4{font-family:var(--ff-d);font-size:1.05rem;margin-bottom:4px}
+.menu-item-info p{font-size:.85rem;color:var(--walnut)}
+.menu-item-right{text-align:right;flex-shrink:0}
+.menu-item-price{font-family:var(--ff-d);font-size:1.1rem;font-weight:700;color:var(--caramel)}
+.menu-item-size{font-family:var(--ff-u);font-size:.7rem;color:var(--sage);margin-top:2px}
+
+/* ============================================================
+   GALLERY PAGE
+   ============================================================ */
+.gallery-grid{max-width:var(--max-w);margin:0 auto;columns:3;column-gap:20px}
+.gallery-item{break-inside:avoid;margin-bottom:20px;border-radius:6px;overflow:hidden;position:relative;cursor:pointer}
+.gallery-img{width:100%;display:flex;align-items:center;justify-content:center;font-size:4rem;transition:transform .5s}
+.gallery-item:hover .gallery-img{transform:scale(1.05)}
+.gallery-item:nth-child(1) .gallery-img{height:280px;background:linear-gradient(145deg,#2a1509,#4a2514)}
+.gallery-item:nth-child(2) .gallery-img{height:200px;background:linear-gradient(145deg,#1a2a14,#3a5a28)}
+.gallery-item:nth-child(3) .gallery-img{height:340px;background:linear-gradient(145deg,#1a1020,#3a2560)}
+.gallery-item:nth-child(4) .gallery-img{height:220px;background:linear-gradient(145deg,#c07c3a,#8a5020)}
+.gallery-item:nth-child(5) .gallery-img{height:300px;background:linear-gradient(145deg,#2a0a10,#5c1828)}
+.gallery-item:nth-child(6) .gallery-img{height:180px;background:linear-gradient(145deg,#0a2020,#1a4040)}
+.gallery-item:nth-child(7) .gallery-img{height:260px;background:linear-gradient(145deg,#2a2010,#5a4820)}
+.gallery-item:nth-child(8) .gallery-img{height:200px;background:linear-gradient(145deg,#3b1f10,#7a3a20)}
+.gallery-item:nth-child(9) .gallery-img{height:320px;background:linear-gradient(145deg,#1a2a0a,#3a5c18)}
+.gallery-overlay{position:absolute;inset:0;background:rgba(26,15,10,0);display:flex;align-items:flex-end;padding:20px;transition:background .3s}
+.gallery-item:hover .gallery-overlay{background:rgba(26,15,10,.55)}
+.gallery-caption{color:var(--foam);font-family:var(--ff-d);font-style:italic;font-size:1rem;opacity:0;transform:translateY(8px);transition:all .3s}
+.gallery-item:hover .gallery-caption{opacity:1;transform:translateY(0)}
+.lightbox{display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:2000;align-items:center;justify-content:center}
+.lightbox.open{display:flex}
+.lightbox-content{position:relative;max-width:600px;width:90%}
+.lightbox-img{width:100%;height:400px;border-radius:6px;display:flex;align-items:center;justify-content:center;font-size:7rem}
+.lightbox-close{position:absolute;top:-48px;right:0;color:var(--foam);font-size:1.5rem;cursor:pointer;opacity:.7;transition:opacity .2s;background:none;border:none;font-family:var(--ff-u)}
+.lightbox-close:hover{opacity:1}
+
+/* ============================================================
+   CONTACT PAGE
+   ============================================================ */
+.contact-grid{max-width:var(--max-w);margin:0 auto;display:grid;grid-template-columns:1fr 1.6fr;gap:72px}
+.contact-info h2{margin-bottom:16px}
+.contact-info>p{margin-bottom:36px}
+.contact-detail{display:flex;gap:16px;margin-bottom:28px;align-items:flex-start}
+.contact-icon{width:44px;height:44px;background:rgba(192,124,58,.1);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1.1rem;flex-shrink:0;margin-top:2px}
+.contact-detail-text h4{font-family:var(--ff-u);font-size:.72rem;font-weight:500;letter-spacing:.15em;text-transform:uppercase;color:var(--caramel);margin-bottom:4px}
+.contact-detail-text p{font-size:.95rem}
+.map-placeholder{border-radius:8px;overflow:hidden;margin-top:32px;border:1px solid rgba(107,58,42,.15)}
+.map-frame{width:100%;height:240px;background:linear-gradient(160deg,#e8dcc8 0%,#d4c4a0 100%);position:relative;overflow:hidden}
+.map-grid::before{content:'';position:absolute;inset:0;background-image:linear-gradient(rgba(160,140,100,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(160,140,100,.4) 1px,transparent 1px);background-size:40px 40px}
+.map-road-h{position:absolute;height:10px;background:rgba(255,255,255,.7);border-radius:2px}
+.map-road-v{position:absolute;width:10px;background:rgba(255,255,255,.7);border-radius:2px}
+.map-pin{position:absolute;display:flex;flex-direction:column;align-items:center;z-index:2;animation:pin-drop .6s cubic-bezier(.34,1.56,.64,1) both}
+@keyframes pin-drop{from{transform:translateY(-40px);opacity:0}to{transform:translateY(0);opacity:1}}
+.map-pin-icon{width:40px;height:40px;background:var(--caramel);border-radius:50% 50% 50% 0;transform:rotate(-45deg);display:flex;align-items:center;justify-content:center;box-shadow:0 4px 12px rgba(192,124,58,.5)}
+.map-pin-icon::after{content:'☕';transform:rotate(45deg);font-size:1rem}
+.map-pin-shadow{width:12px;height:4px;background:rgba(0,0,0,.2);border-radius:50%;margin-top:4px;filter:blur(1px)}
+.map-lbl{position:absolute;bottom:16px;right:16px;background:var(--espresso);color:var(--foam);font-family:var(--ff-u);font-size:.72rem;padding:6px 12px;border-radius:20px}
+.map-info-bar{background:var(--espresso);color:var(--cream);padding:14px 20px;display:flex;justify-content:space-between;align-items:center;font-family:var(--ff-u);font-size:.82rem}
+.map-info-bar a{color:var(--honey);font-weight:500;transition:color .2s}
+.map-info-bar a:hover{color:var(--cream)}
+.map-road-label{position:absolute;font-family:'DM Sans',sans-serif;font-size:.62rem;font-weight:600;color:#8a7a5a;letter-spacing:.05em;white-space:nowrap}
+.contact-form{padding-top:8px}
+.contact-form h3{margin-bottom:8px}
+.contact-form>p{margin-bottom:32px;color:var(--walnut)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.form-group{margin-bottom:20px}
+.form-group label{display:block;font-family:var(--ff-u);font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--walnut);margin-bottom:8px}
+.form-group input,.form-group select,.form-group textarea{width:100%;padding:14px 16px;background:var(--latte);border:1.5px solid rgba(107,58,42,.15);border-radius:4px;font-family:var(--ff-b);font-size:.95rem;color:var(--espresso);transition:border-color .2s,box-shadow .2s;outline:none}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--caramel);box-shadow:0 0 0 3px rgba(192,124,58,.12)}
+.form-group textarea{height:130px;resize:vertical}
+.form-success{display:none;text-align:center;padding:40px;background:rgba(122,140,110,.1);border:1px solid rgba(122,140,110,.3);border-radius:6px;margin-top:16px}
+.form-success.show{display:block}
+.form-success-icon{font-size:3rem;margin-bottom:12px}
+.form-success h4{margin-bottom:8px;color:var(--sage)}
+.form-success p{font-size:.9rem}
+
+/* ============================================================
+   ANIMATIONS & REVEAL
+   ============================================================ */
+@keyframes fade-up{from{opacity:0;transform:translateY(28px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fade-in{from{opacity:0}to{opacity:1}}
+.reveal{opacity:0;transform:translateY(32px);transition:opacity .7s ease,transform .7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:.1s}
+.reveal-delay-2{transition-delay:.2s}
+.reveal-delay-3{transition-delay:.3s}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media(max-width:1024px){
+  .drinks-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .story-strip{grid-template-columns:1fr;gap:48px}
+  .story-visual{height:340px}
+  .about-intro{grid-template-columns:1fr}
+  .gallery-grid{columns:2}
+  .contact-grid{grid-template-columns:1fr}
+}
+@media(max-width:768px){
+  .nav-links{display:none}
+  .nav-toggle{display:flex}
+  .drinks-grid,.testimonials-grid,.values-grid{grid-template-columns:1fr}
+  .team-grid{grid-template-columns:1fr 1fr}
+  .menu-items-list{grid-template-columns:1fr}
+  .gallery-grid{columns:1}
+  .form-row{grid-template-columns:1fr}
+  .hours-inner{flex-direction:column;text-align:center}
+  .footer-grid{grid-template-columns:1fr;gap:32px}
+  .footer-bottom{flex-direction:column;gap:8px;text-align:center}
+  .about-img-stack{height:280px}
+}
+@media(max-width:480px){
+  .team-grid{grid-template-columns:1fr}
+  .hero-actions{flex-direction:column}
+  .story-stats{grid-template-columns:1fr 1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- ╔══════════════════════════════╗
+     ║         NAVIGATION          ║
+     ╚══════════════════════════════╝ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+    <div class="nav-logo" onclick="showPage('home')">
+      <span class="nav-logo-icon">☕</span>
+      <span class="nav-logo-name">Brew Haven</span>
+    </div>
+    <ul class="nav-links">
+      <li><a onclick="showPage('home')"   data-page="home">Home</a></li>
+      <li><a onclick="showPage('about')"  data-page="about">About</a></li>
+      <li><a onclick="showPage('menu')"   data-page="menu">Menu</a></li>
+      <li><a onclick="showPage('gallery')"data-page="gallery">Gallery</a></li>
+      <li><a onclick="showPage('contact')"data-page="contact">Contact</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
+  </div>
+</nav>
+<div class="mobile-menu" id="mobileMenu">
+  <a onclick="showPage('home')">Home</a>
+  <a onclick="showPage('about')">About Us</a>
+  <a onclick="showPage('menu')">Menu</a>
+  <a onclick="showPage('gallery')">Gallery</a>
+  <a onclick="showPage('contact')">Contact</a>
+</div>
+
+<!-- ╔══════════════════════════════╗
+     ║         HOME PAGE           ║
+     ╚══════════════════════════════╝ -->
+<div class="page active" id="page-home">
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-bg"><div class="grain"></div></div>
+    <div class="hero-content">
+      <div class="hero-eyebrow">Est. 2019 &nbsp;·&nbsp; Bengaluru</div>
+      <h1>Fresh Coffee,<br><em>Warm Moments.</em></h1>
+      <p class="hero-tagline">A sanctuary for coffee lovers — where every cup is crafted with intention and every visit feels like coming home.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary" onclick="showPage('menu')">Explore Our Menu</button>
+        <button class="btn btn-outline" onclick="showPage('contact')">Find Us</button>
+      </div>
+    </div>
+    <div class="hero-scroll"><div class="scroll-line"></div>Scroll</div>
+  </section>
+
+  <!-- Featured Drinks -->
+  <section class="section">
+    <div class="container">
+      <div class="section-header reveal">
+        <span class="section-label">Our Signatures</span>
+        <h2>Crafted with Love</h2>
+        <p>Each drink is a story told in flavour — sourced from single-origin farms, roasted in-house, poured with care.</p>
+      </div>
+      <div class="drinks-grid">
+        <div class="drink-card reveal">
+          <div class="drink-card-img">☕<span class="drink-badge">Bestseller</span></div>
+          <div class="drink-card-body">
+            <h3>Signature Espresso</h3>
+            <p>Double shot of our house-blend — rich, bold, and velvety with a golden crema.</p>
+            <div class="drink-card-footer"><span class="drink-price">₹180</span><span class="drink-tag">Espresso</span></div>
+          </div>
+        </div>
+        <div class="drink-card reveal reveal-delay-1">
+          <div class="drink-card-img">🍵</div>
+          <div class="drink-card-body">
+            <h3>Matcha Latte</h3>
+            <p>Ceremonial-grade Japanese matcha whisked into steamed oat milk. Earthy, sweet, serene.</p>
+            <div class="drink-card-footer"><span class="drink-price">₹260</span><span class="drink-tag">Seasonal</span></div>
+          </div>
+        </div>
+        <div class="drink-card reveal reveal-delay-2">
+          <div class="drink-card-img">🧡<span class="drink-badge">New</span></div>
+          <div class="drink-card-body">
+            <h3>Hazelnut Caramel Flat White</h3>
+            <p>Smooth ristretto shots with hazelnut syrup, silky steamed milk and a caramel drizzle.</p>
+            <div class="drink-card-footer"><span class="drink-price">₹320</span><span class="drink-tag">Specialty</span></div>
+          </div>
+        </div>
+        <div class="drink-card reveal">
+          <div class="drink-card-img">🌙</div>
+          <div class="drink-card-body">
+            <h3>Lavender Honey Cold Brew</h3>
+            <p>18-hour cold-steeped brew infused with lavender syrup and raw wildflower honey.</p>
+            <div class="drink-card-footer"><span class="drink-price">₹290</span><span class="drink-tag">Cold Brew</span></div>
+          </div>
+        </div>
+        <div class="drink-card reveal reveal-delay-1">
+          <div class="drink-card-img">🍓<span class="drink-badge">Summer</span></div>
+          <div class="drink-card-body">
+            <h3>Strawberry Blossom Latte</h3>
+            <p>Rose-infused espresso with fresh strawberry compote and lightly frothed milk.</p>
+            <div class="drink-card-footer"><span class="drink-price">₹340</span><span class="drink-tag">Seasonal</span></div>
+          </div>
+        </div>
+        <div class="drink-card reveal reveal-delay-2">
+          <div class="drink-card-img">🌿</div>
+          <div class="drink-card-body">
+            <h3>Mint Mojito Cold Coffee</h3>
+            <p>Chilled espresso shaken with fresh mint, lime zest, and soda water.</p>
+            <div class="drink-card-footer"><span class="drink-price">₹270</span><span class="drink-tag">Cold Coffee</span></div>
+          </div>
+        </div>
+      </div>
+      <div class="text-center" style="margin-top:48px">
+        <button class="btn btn-primary reveal" onclick="showPage('menu')">View Full Menu →</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Story Strip -->
+  <section class="section section-cream">
+    <div class="container">
+      <div class="story-strip">
+        <div class="story-visual reveal">
+          <div class="story-img-main">☕</div>
+          <div class="story-img-accent">🫘</div>
+        </div>
+        <div class="story-text reveal">
+          <span class="section-label">Our Story</span>
+          <h2>Born from a Love of the Perfect Cup</h2>
+          <p>Brew Haven began in 2019 as a small corner café in Indiranagar, Bengaluru — a dream born from late-night conversations and an obsession with sourcing extraordinary beans.</p>
+          <p>We partner directly with small farms across Coorg, Chikmagalur, and internationally from Ethiopia and Colombia, roasting every batch in-house to honour the farmer's craft.</p>
+          <div class="story-stats">
+            <div class="stat-item"><div class="stat-num" data-count="12" data-suffix="+">12+</div><div class="stat-label">Bean Origins</div></div>
+            <div class="stat-item"><div class="stat-num" data-count="40" data-suffix="+">40+</div><div class="stat-label">Menu Items</div></div>
+            <div class="stat-item"><div class="stat-num" data-count="5">5</div><div class="stat-label">Years of Craft</div></div>
+            <div class="stat-item"><div class="stat-num" data-count="2000" data-suffix="+">2000+</div><div class="stat-label">Happy Regulars</div></div>
+          </div>
+          <button class="btn btn-primary" onclick="showPage('about')">Our Full Story →</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Hours Banner -->
+  <div class="hours-banner">
+    <div class="hours-inner">
+      <div class="hours-title">We're open &amp; waiting for you</div>
+      <div class="hours-grid">
+        <div class="hours-item"><div class="day">Mon – Fri</div><div class="time">7:00 AM – 10:00 PM</div></div>
+        <div class="hours-item"><div class="day">Saturday</div><div class="time">8:00 AM – 11:00 PM</div></div>
+        <div class="hours-item"><div class="day">Sunday</div><div class="time">9:00 AM – 9:00 PM</div></div>
+      </div>
+      <button class="btn" style="background:var(--espresso);color:var(--foam)" onclick="showPage('contact')">Get Directions</button>
+    </div>
+  </div>
+
+  <!-- Testimonials -->
+  <section class="section section-dark">
+    <div class="container">
+      <div class="section-header centered reveal" style="margin-bottom:48px">
+        <span class="section-label" style="color:var(--honey)">What People Say</span>
+        <h2 style="color:var(--foam)">Loved by the Neighbourhood</h2>
+      </div>
+      <div class="testimonials-grid">
+        <div class="testimonial-card reveal">
+          <div class="stars">★★★★★</div>
+          <blockquote>"The hazelnut flat white changed my morning routine forever. I commute 40 minutes just to start my day here. The baristas actually know your name."</blockquote>
+          <div class="testimonial-author"><div class="author-avatar a1">👩</div><div><div class="author-name">Priya Sharma</div><div class="author-role">Regular since 2020</div></div></div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-1">
+          <div class="stars">★★★★★</div>
+          <blockquote>"Best cold brew in Bengaluru, period. The lavender honey version is something I still dream about. The space is perfect for work — cosy but not cramped."</blockquote>
+          <div class="testimonial-author"><div class="author-avatar a2">👨</div><div><div class="author-name">Arjun Menon</div><div class="author-role">Freelance Designer</div></div></div>
+        </div>
+        <div class="testimonial-card reveal reveal-delay-2">
+          <div class="stars">★★★★★</div>
+          <blockquote>"I've been to cafés in 22 countries and Brew Haven holds its own beautifully. The single-origin pour-over was an experience. Please never close."</blockquote>
+          <div class="testimonial-author"><div class="author-avatar a3">👩</div><div><div class="author-name">Meera Iyer</div><div class="author-role">Travel Blogger</div></div></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta-banner">
+    <div class="container">
+      <span class="section-label" style="color:var(--honey)">Come Visit Us</span>
+      <h2>Your Next Favourite Cup Awaits</h2>
+      <p>Whether it's your morning ritual, a work session, or a catch-up with a friend — there's always a seat and a story here for you.</p>
+      <div class="cta-actions">
+        <button class="btn btn-primary" onclick="showPage('menu')">Browse the Menu</button>
+        <button class="btn btn-outline" onclick="showPage('contact')">Find Us on the Map</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <h3>☕ Brew Haven Café</h3>
+        <p>Fresh Coffee, Warm Moments.<br>A community café built on great beans, honest craft, and the belief that every visit should feel like home.</p>
+        <div class="footer-socials">
+          <a title="Instagram">📸</a><a title="Facebook">👥</a><a title="Twitter">🐦</a><a title="YouTube">▶️</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li onclick="showPage('home')">Home</li>
+          <li onclick="showPage('about')">About Us</li>
+          <li onclick="showPage('menu')">Menu</li>
+          <li onclick="showPage('gallery')">Gallery</li>
+          <li onclick="showPage('contact')">Contact</li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Menu</h4>
+        <ul><li>Espresso Drinks</li><li>Cold Brew</li><li>Teas &amp; Matcha</li><li>Seasonal Specials</li><li>Pastries &amp; Bites</li></ul>
+      </div>
+      <div class="footer-col">
+        <h4>Opening Hours</h4>
+        <div class="footer-hours-row"><strong>Mon–Fri</strong><span>7 AM – 10 PM</span></div>
+        <div class="footer-hours-row"><strong>Saturday</strong><span>8 AM – 11 PM</span></div>
+        <div class="footer-hours-row"><strong>Sunday</strong><span>9 AM – 9 PM</span></div>
+        <div style="color:rgba(245,234,216,.55);font-size:.85rem;margin-top:12px">📍 12, Church Street, Bengaluru<br>📞 +91 98765 43210</div>
+      </div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 Brew Haven Café. All rights reserved.</span><span>Crafted with ☕ &amp; love in Bengaluru</span></div>
+  </footer>
+</div><!-- /page-home -->
+
+
+<!-- ╔══════════════════════════════╗
+     ║         ABOUT PAGE          ║
+     ╚══════════════════════════════╝ -->
+<div class="page" id="page-about">
+  <div class="page-hero"><div class="page-hero-bg"></div>
+    <div class="page-hero-content">
+      <div class="breadcrumb">Home <span>›</span> About Us</div>
+      <h1>Our Story</h1><p>A passion project turned neighbourhood institution</p>
+    </div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="about-intro">
+        <div class="about-img-stack reveal">
+          <div class="aimg aimg-1">☕</div>
+          <div class="aimg aimg-2">🫘</div>
+        </div>
+        <div class="about-text reveal">
+          <span class="section-label">Where It All Began</span>
+          <h2>A Cup That Changed Everything</h2>
+          <p>It started with a single cup of Ethiopian Yirgacheffe — bright, floral, unlike anything founder <strong>Kavya Nair</strong> had tasted before. That cup, sipped at a tiny roastery in Copenhagen during a solo trip in 2018, planted a seed.</p>
+          <p>A year later, Brew Haven Café opened its doors on Church Street, Bengaluru. The concept was simple: bring the world's finest beans to the neighbourhood, roast them with respect, and serve them in a space that feels like a warm hug.</p>
+          <p>Five years on, we've grown from a 10-seat corner spot to a beloved community hub — but the soul remains the same. Every bean still tells a story. Every cup still matters.</p>
+          <br><button class="btn btn-primary" onclick="showPage('menu')">Explore Our Menu</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-cream">
+    <div class="container">
+      <div class="section-header centered reveal" style="margin-bottom:48px">
+        <span class="section-label">What We Stand For</span>
+        <h2>Our Values</h2>
+        <p>Three principles that guide every decision we make — from bean to cup to community.</p>
+      </div>
+      <div class="values-grid">
+        <div class="value-card reveal"><div class="value-icon">🌱</div><h3>Sustainability First</h3><p>We source from farms practicing regenerative agriculture, use compostable packaging, and offset our roasting carbon footprint. Good coffee should also be good for the planet.</p></div>
+        <div class="value-card reveal reveal-delay-1"><div class="value-icon">🤝</div><h3>Farmer Partnerships</h3><p>We pay above fair-trade prices because the people who grow our beans deserve more than a fair deal — they deserve a great one. We visit our farm partners personally each year.</p></div>
+        <div class="value-card reveal reveal-delay-2"><div class="value-icon">🎨</div><h3>Craft &amp; Curiosity</h3><p>Coffee is never finished learning. Our baristas train monthly, experiment seasonally, and are encouraged to push boundaries. Boredom is the enemy of a good cup.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header centered reveal"><span class="section-label">The Journey</span><h2>How We Got Here</h2></div>
+      <div class="timeline" style="margin-top:48px">
+        <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-year">2018</div><h3>The Spark in Copenhagen</h3><p>Kavya tastes a life-changing cup of Ethiopian pour-over. The idea for Brew Haven is born.</p></div>
+        <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-year">January 2019</div><h3>Doors Open on Church Street</h3><p>Brew Haven opens with 10 seats, a 2-group espresso machine, and a menu of 8 drinks. The queue starts on day one.</p></div>
+        <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-year">2020</div><h3>Roasting In-House</h3><p>We invest in a 12-kg roaster and begin sourcing directly from Coorg and Chikmagalur farms. Our house blend is born.</p></div>
+        <div class="tl-item reveal"><div class="tl-dot"></div><div class="tl-year">2022</div><h3>Expansion &amp; Recognition</h3><p>Named "Best Indie Café in Bengaluru" by Times Food. We expand to 45 seats and launch our seasonal menu programme.</p></div>
+        <div class="tl-item reveal"><div class="tl-dot" style="background:var(--honey);box-shadow:0 0 0 2px var(--honey)"></div><div class="tl-year" style="color:var(--honey)">Today</div><h3>A Community Institution</h3><p>2,000+ regulars, 12 bean origins, 40+ menu items, and a team of 14 passionate people. The story keeps being written.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section-cream">
+    <div class="container">
+      <div class="section-header centered reveal"><span class="section-label">The Humans Behind the Cups</span><h2>Meet Our Team</h2><p>Passionate people who live and breathe coffee (and occasionally tea).</p></div>
+      <div class="team-grid" style="margin-top:48px">
+        <div class="team-card reveal"><div class="team-avatar t1">👩‍🍳</div><h3>Kavya Nair</h3><div class="team-role">Founder &amp; Head Roaster</div><p>Former architect turned coffee obsessive. Travels to origin farms every quarter and still hand-writes every roast profile.</p></div>
+        <div class="team-card reveal reveal-delay-1"><div class="team-avatar t2">👨‍🍳</div><h3>Rohan Bhat</h3><div class="team-role">Head Barista &amp; Trainer</div><p>2× South India Barista Champion. Has trained 50+ baristas and believes latte art is a form of meditation.</p></div>
+        <div class="team-card reveal reveal-delay-2"><div class="team-avatar t3">👩‍💼</div><h3>Ananya Singh</h3><div class="team-role">Menu &amp; Pastry Chef</div><p>Creates the seasonal food menu that keeps regulars surprised. Her cardamom coffee cake has its own cult following.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner"><div class="container">
+    <span class="section-label" style="color:var(--honey)">Come Say Hello</span>
+    <h2>We'd Love to Meet You</h2><p>Drop by any morning, pull up a chair, and let us make you something wonderful.</p>
+    <div class="cta-actions"><button class="btn btn-primary" onclick="showPage('contact')">Visit Us</button><button class="btn btn-outline" onclick="showPage('menu')">See the Menu</button></div>
+  </div></section>
+
+  <footer class="footer">
+    <div class="footer-grid">
+      <div class="footer-brand"><h3>☕ Brew Haven Café</h3><p>Fresh Coffee, Warm Moments.<br>A community café built on great beans and the belief that every visit should feel like home.</p><div class="footer-socials"><a>📸</a><a>👥</a><a>🐦</a><a>▶️</a></div></div>
+      <div class="footer-col"><h4>Quick Links</h4><ul><li onclick="showPage('home')">Home</li><li onclick="showPage('about')">About Us</li><li onclick="showPage('menu')">Menu</li><li onclick="showPage('gallery')">Gallery</li><li onclick="showPage('contact')">Contact</li></ul></div>
+      <div class="footer-col"><h4>Menu</h4><ul><li>Espresso Drinks</li><li>Cold Brew</li><li>Teas &amp; Matcha</li><li>Seasonal Specials</li><li>Pastries &amp; Bites</li></ul></div>
+      <div class="footer-col"><h4>Opening Hours</h4><div class="footer-hours-row"><strong>Mon–Fri</strong><span>7 AM – 10 PM</span></div><div class="footer-hours-row"><strong>Saturday</strong><span>8 AM – 11 PM</span></div><div class="footer-hours-row"><strong>Sunday</strong><span>9 AM – 9 PM</span></div><div style="color:rgba(245,234,216,.55);font-size:.85rem;margin-top:12px">📍 12, Church Street, Bengaluru<br>📞 +91 98765 43210</div></div>
+    </div>
+    <div class="footer-bottom"><span>© 2024 Brew Haven Café.</span><span>Crafted with ☕ in Bengaluru</span></div>
+  </footer>
+</div><!-- /page-about -->
+
+
+<!-- ╔══════════════════════════════╗
+     ║          MENU PAGE          ║
+     ╚══════════════════════════════╝ -->
+<div class="page" id="page-menu">
+  <div class="page-hero"><div class="page-hero-bg"></div>
+    <div class="page-hero-content"><div class="breadcrumb">Home <span>›</span> Menu</div><h1>Our Menu</h1><p>Seasonal ingredients, single-origin beans, crafted with care</p></div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header centered reveal" style="margin-bottom:40px">
+        <span class="section-label">What We Serve</span><h2>From Bean to Cup &amp; Beyond</h2>
+        <p>All prices inclusive of taxes. Oat milk substitute available at ₹30 extra.</p>
+      </div>
+      <div class="menu-tabs reveal">
+        <button class="menu-tab active" data-target="hot">☕ Hot Drinks</button>
+        <button class="menu-tab" data-target="cold">🧊 Cold Drinks</button>
+        <button class="menu-tab" data-target="teas">🍵 Teas &amp; Matcha</button>
+        <button class="menu-tab" data-target="food">🍞 Food &amp; Bites</button>
+        <button class="menu-tab" data-target="seasonal">🌸 Seasonal</button>
+      </div>
+
+      <!-- Hot -->
+      <div class="menu-section active" id="hot">
+        <div class="menu-category">
+          <div class="menu-cat-title">☕ Espresso Classics</div>
+          <div class="menu-items-list">
+            <div class="menu-item"><div class="menu-item-info"><h4>Espresso</h4><p>Single or double shot — rich, bold, golden crema.</p></div><div class="menu-item-right"><div class="menu-item-price">₹140</div><div class="menu-item-size">Single / Double</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Americano</h4><p>Espresso extended with hot water. Clean and bold.</p></div><div class="menu-item-right"><div class="menu-item-price">₹160</div><div class="menu-item-size">Regular / Large</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Flat White ⭐</h4><p>Ristretto shots with velvety microfoam milk. Intense and smooth.</p></div><div class="menu-item-right"><div class="menu-item-price">₹240</div><div class="menu-item-size">200ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Cappuccino</h4><p>Equal parts espresso, steamed milk, and silky foam.</p></div><div class="menu-item-right"><div class="menu-item-price">₹220</div><div class="menu-item-size">Regular / Large</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Café Latte</h4><p>Double espresso with generous steamed milk and a thin foam cap.</p></div><div class="menu-item-right"><div class="menu-item-price">₹230</div><div class="menu-item-size">Regular / Large</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Cortado</h4><p>Equal espresso and warm milk — for those who want balance.</p></div><div class="menu-item-right"><div class="menu-item-price">₹200</div><div class="menu-item-size">120ml</div></div></div>
+          </div>
+        </div>
+        <div class="menu-category">
+          <div class="menu-cat-title">✨ Signature Hot Drinks</div>
+          <div class="menu-items-list">
+            <div class="menu-item"><div class="menu-item-info"><h4>Hazelnut Caramel Flat White ⭐</h4><p>Ristretto, hazelnut syrup, oat milk, caramel drizzle. Our most-ordered drink.</p></div><div class="menu-item-right"><div class="menu-item-price">₹320</div><div class="menu-item-size">220ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Cardamom Rose Latte</h4><p>Espresso with cardamom-infused milk and rose water. Fragrant and warming.</p></div><div class="menu-item-right"><div class="menu-item-price">₹290</div><div class="menu-item-size">250ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Honey Cinnamon Cappuccino</h4><p>Wildflower honey, Ceylon cinnamon, and a double shot. Comfort in a cup.</p></div><div class="menu-item-right"><div class="menu-item-price">₹270</div><div class="menu-item-size">220ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Pour Over — Single Origin</h4><p>Ask your barista for today's featured origin. Brewed to order in V60.</p></div><div class="menu-item-right"><div class="menu-item-price">₹350</div><div class="menu-item-size">Rotating origin</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cold -->
+      <div class="menu-section" id="cold">
+        <div class="menu-category">
+          <div class="menu-cat-title">🧊 Cold Brew &amp; Iced Coffees</div>
+          <div class="menu-items-list">
+            <div class="menu-item"><div class="menu-item-info"><h4>Classic Cold Brew ⭐</h4><p>18-hour cold-steeped. Smooth, low-acid, and intensely flavourful.</p></div><div class="menu-item-right"><div class="menu-item-price">₹240</div><div class="menu-item-size">300ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Lavender Honey Cold Brew ⭐</h4><p>House cold brew with lavender syrup and raw wildflower honey.</p></div><div class="menu-item-right"><div class="menu-item-price">₹290</div><div class="menu-item-size">300ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Nitro Cold Brew</h4><p>Cold brew infused with nitrogen. Creamy, stout-like texture — no milk needed.</p></div><div class="menu-item-right"><div class="menu-item-price">₹320</div><div class="menu-item-size">250ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Iced Americano</h4><p>Double espresso over ice, topped with cold water. Simple perfection.</p></div><div class="menu-item-right"><div class="menu-item-price">₹190</div><div class="menu-item-size">350ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Iced Latte</h4><p>Espresso shots over ice with cold milk. A crowd-pleaser any time.</p></div><div class="menu-item-right"><div class="menu-item-price">₹250</div><div class="menu-item-size">400ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Mint Mojito Cold Coffee ⭐</h4><p>Espresso, fresh mint, lime zest, and soda water. Refreshing and bold.</p></div><div class="menu-item-right"><div class="menu-item-price">₹270</div><div class="menu-item-size">350ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Vietnamese Iced Coffee</h4><p>Strong drip brew over ice, layered with sweetened condensed milk.</p></div><div class="menu-item-right"><div class="menu-item-price">₹230</div><div class="menu-item-size">300ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Dalgona Whip</h4><p>Whipped coffee cloud over cold milk. Fluffy, sweet, Instagram-worthy.</p></div><div class="menu-item-right"><div class="menu-item-price">₹260</div><div class="menu-item-size">350ml</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Teas -->
+      <div class="menu-section" id="teas">
+        <div class="menu-category">
+          <div class="menu-cat-title">🍵 Matcha</div>
+          <div class="menu-items-list">
+            <div class="menu-item"><div class="menu-item-info"><h4>Matcha Latte ⭐</h4><p>Ceremonial-grade Japanese matcha whisked into steamed oat milk.</p></div><div class="menu-item-right"><div class="menu-item-price">₹260</div><div class="menu-item-size">Hot / Iced</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Matcha Hojicha Latte</h4><p>Half matcha, half roasted hojicha — earthy meets toasty.</p></div><div class="menu-item-right"><div class="menu-item-price">₹290</div><div class="menu-item-size">Hot / Iced</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Iced Matcha Lemonade</h4><p>Matcha and fresh lemon over ice. Tangy, earthy, surprisingly addictive.</p></div><div class="menu-item-right"><div class="menu-item-price">₹270</div><div class="menu-item-size">350ml</div></div></div>
+          </div>
+        </div>
+        <div class="menu-category">
+          <div class="menu-cat-title">🫖 Premium Teas</div>
+          <div class="menu-items-list">
+            <div class="menu-item"><div class="menu-item-info"><h4>Masala Chai</h4><p>House-spiced chai with fresh ginger, cardamom, and cloves.</p></div><div class="menu-item-right"><div class="menu-item-price">₹140</div><div class="menu-item-size">Regular / Large</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Darjeeling First Flush</h4><p>Light, muscatel Darjeeling served in a glass teapot. Spring harvest.</p></div><div class="menu-item-right"><div class="menu-item-price">₹180</div><div class="menu-item-size">Pot for 1</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Blue Butterfly Pea Tea</h4><p>Colour-changing tea. Add lemon to watch it turn violet!</p></div><div class="menu-item-right"><div class="menu-item-price">₹160</div><div class="menu-item-size">Hot / Iced</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Chamomile &amp; Honey</h4><p>Whole chamomile flowers steeped with raw honey. Calming and gentle.</p></div><div class="menu-item-right"><div class="menu-item-price">₹150</div><div class="menu-item-size">Pot for 1</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Food -->
+      <div class="menu-section" id="food">
+        <div class="menu-category">
+          <div class="menu-cat-title">🥐 Pastries &amp; Baked Goods</div>
+          <div class="menu-items-list">
+            <div class="menu-item"><div class="menu-item-info"><h4>Cardamom Coffee Cake ⭐ 🌱</h4><p>House-baked with espresso glaze and cardamom streusel. Legendary.</p></div><div class="menu-item-right"><div class="menu-item-price">₹180</div><div class="menu-item-size">Slice</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Almond Croissant 🌱</h4><p>Flaky, buttery, filled with almond cream and toasted flakes.</p></div><div class="menu-item-right"><div class="menu-item-price">₹160</div><div class="menu-item-size">Each</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Banana Walnut Loaf 🌱</h4><p>Moist, wholesome loaf with ripe bananas and roasted walnuts.</p></div><div class="menu-item-right"><div class="menu-item-price">₹140</div><div class="menu-item-size">Slice</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Cheesy Herb Scone 🌱</h4><p>Savoury, flaky, loaded with aged cheddar and fresh chives.</p></div><div class="menu-item-right"><div class="menu-item-price">₹150</div><div class="menu-item-size">Each</div></div></div>
+          </div>
+        </div>
+        <div class="menu-category">
+          <div class="menu-cat-title">🥪 Savoury Bites</div>
+          <div class="menu-items-list">
+            <div class="menu-item"><div class="menu-item-info"><h4>Avocado Toast 🌱</h4><p>Sourdough, smashed avocado, cherry tomatoes, chilli flakes, dukkah.</p></div><div class="menu-item-right"><div class="menu-item-price">₹280</div><div class="menu-item-size">Full plate</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Pesto Panini 🌱</h4><p>House pesto, mozzarella, sun-dried tomatoes, rocket on toasted ciabatta.</p></div><div class="menu-item-right"><div class="menu-item-price">₹260</div><div class="menu-item-size">Full panini</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Eggs Bhurji Toast</h4><p>Spiced scrambled eggs with peppers and onions on multigrain toast.</p></div><div class="menu-item-right"><div class="menu-item-price">₹220</div><div class="menu-item-size">Full plate</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Granola Bowl 🌱</h4><p>House granola, seasonal fruits, coconut yoghurt, honey drizzle.</p></div><div class="menu-item-right"><div class="menu-item-price">₹240</div><div class="menu-item-size">Full bowl</div></div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Seasonal -->
+      <div class="menu-section" id="seasonal">
+        <div style="text-align:center;padding:24px 0 40px">
+          <span class="section-label">Limited Time Offerings</span>
+          <h2 style="margin-top:8px">Summer 2024 Specials</h2>
+          <p style="max-width:480px;margin:12px auto 0">Our seasonal menu rotates every quarter. Available while stocks last.</p>
+        </div>
+        <div class="menu-category">
+          <div class="menu-cat-title">🌸 Summer Drinks</div>
+          <div class="menu-items-list">
+            <div class="menu-item"><div class="menu-item-info"><h4>Strawberry Blossom Latte ⭐</h4><p>Rose-infused espresso with fresh strawberry compote and frothed milk.</p></div><div class="menu-item-right"><div class="menu-item-price">₹340</div><div class="menu-item-size">Hot / Iced</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Mango Saffron Cold Latte</h4><p>Alphonso mango purée, a pinch of saffron, espresso, and oat milk over ice.</p></div><div class="menu-item-right"><div class="menu-item-price">₹360</div><div class="menu-item-size">400ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Watermelon Basil Refresher 🌱</h4><p>Fresh watermelon juice, basil seeds, lemon, and sparkling water.</p></div><div class="menu-item-right"><div class="menu-item-price">₹200</div><div class="menu-item-size">350ml</div></div></div>
+            <div class="menu-item"><div class="menu-item-info"><h4>Coconut Cold Brew Float</h4><p>Cold brew topped with a scoop of coconut ice cream and a hint of sea salt.</p></div><div class="menu-item-right"><div class="menu-item-price">₹380</div><div class="menu-item-size">Special</div></div></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="hours-banner"><div class="hours-inner">
+    <div class="hours-title">Kitchen hours may vary</div>
+    <div class="hours-grid">
+      <div class="hours-item"><div class="day">Mon – Fri</div><div class="time">7:00 AM – 10:00 PM</div></div>
+      <div class="hours-item"><div class="day">Saturday</div><div class="time">8:00 AM – 11:00 PM</div></div>
+      <div class="hours-item"><div class="day">Sunday</div><div class="time">9:00 AM – 9:00 PM</div></div>
+    </div>
+    <button class="btn" style="background:var(--espresso);color:var(--foam)" onclick="showPage('contact')">Visit Us</button>
+  </div></div>
+
+  <footer class="footer"><div class="footer-grid">
+    <div class="footer-brand"><h3>☕ Brew Haven Café</h3><p>Fresh Coffee, Warm Moments. A community café built on great beans and honest craft.</p><div class="footer-socials"><a>📸</a><a>👥</a><a>🐦</a><a>▶️</a></div></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li onclick="showPage('home')">Home</li><li onclick="showPage('about')">About Us</li><li onclick="showPage('menu')">Menu</li><li onclick="showPage('gallery')">Gallery</li><li onclick="showPage('contact')">Contact</li></ul></div>
+    <div class="footer-col"><h4>Menu</h4><ul><li>Espresso Drinks</li><li>Cold Brew</li><li>Teas &amp; Matcha</li><li>Seasonal Specials</li><li>Pastries &amp; Bites</li></ul></div>
+    <div class="footer-col"><h4>Opening Hours</h4><div class="footer-hours-row"><strong>Mon–Fri</strong><span>7 AM – 10 PM</span></div><div class="footer-hours-row"><strong>Saturday</strong><span>8 AM – 11 PM</span></div><div class="footer-hours-row"><strong>Sunday</strong><span>9 AM – 9 PM</span></div></div>
+  </div><div class="footer-bottom"><span>© 2024 Brew Haven Café.</span><span>Crafted with ☕ in Bengaluru</span></div></footer>
+</div><!-- /page-menu -->
+
+
+<!-- ╔══════════════════════════════╗
+     ║        GALLERY PAGE         ║
+     ╚══════════════════════════════╝ -->
+<div class="page" id="page-gallery">
+  <div class="page-hero"><div class="page-hero-bg"></div>
+    <div class="page-hero-content"><div class="breadcrumb">Home <span>›</span> Gallery</div><h1>Our Gallery</h1><p>Moments, moods, and the art of coffee</p></div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="section-header centered reveal" style="margin-bottom:48px">
+        <span class="section-label">A Glimpse Inside</span><h2>Life at Brew Haven</h2><p>Click any photo to view it up close.</p>
+      </div>
+      <div class="gallery-grid reveal">
+        <div class="gallery-item"><div class="gallery-img">☕</div><div class="gallery-overlay"><div class="gallery-caption">Morning pour-over ritual</div></div></div>
+        <div class="gallery-item"><div class="gallery-img">🌿</div><div class="gallery-overlay"><div class="gallery-caption">The garden corner</div></div></div>
+        <div class="gallery-item"><div class="gallery-img">🎨</div><div class="gallery-overlay"><div class="gallery-caption">Latte art in the making</div></div></div>
+        <div class="gallery-item"><div class="gallery-img">🫘</div><div class="gallery-overlay"><div class="gallery-caption">Single-origin beans from Coorg</div></div></div>
+        <div class="gallery-item"><div class="gallery-img">🍓</div><div class="gallery-overlay"><div class="gallery-caption">Strawberry Blossom Latte</div></div></div>
+        <div class="gallery-item"><div class="gallery-img">🪴</div><div class="gallery-overlay"><div class="gallery-caption">Window seat stories</div></div></div>
+        <div class="gallery-item"><div class="gallery-img">🥐</div><div class="gallery-overlay"><div class="gallery-caption">Fresh-baked every morning</div></div></div>
+        <div class="gallery-item"><div class="gallery-img">🔥</div><div class="gallery-overlay"><div class="gallery-caption">In-house roasting</div></div></div>
+        <div class="gallery-item"><div class="gallery-img">🌙</div><div class="gallery-overlay"><div class="gallery-caption">Evening golden hour</div></div></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="lightbox" id="lightbox">
+    <div class="lightbox-content">
+      <button class="lightbox-close" id="lbClose">✕ Close</button>
+      <div class="lightbox-img" id="lbImg"></div>
+    </div>
+  </div>
+
+  <section class="cta-banner"><div class="container">
+    <span class="section-label" style="color:var(--honey)">Tag Us</span>
+    <h2>Share Your Brew Haven Moment</h2>
+    <p>Tag <strong style="color:var(--honey)">@brewhavencafe</strong> on Instagram for a chance to be featured.</p>
+    <div class="cta-actions"><button class="btn btn-primary" onclick="showPage('contact')">Visit Us</button><button class="btn btn-outline" onclick="showPage('menu')">See the Menu</button></div>
+  </div></section>
+
+  <footer class="footer"><div class="footer-grid">
+    <div class="footer-brand"><h3>☕ Brew Haven Café</h3><p>Fresh Coffee, Warm Moments. A community café built on great beans and honest craft.</p><div class="footer-socials"><a>📸</a><a>👥</a><a>🐦</a><a>▶️</a></div></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li onclick="showPage('home')">Home</li><li onclick="showPage('about')">About Us</li><li onclick="showPage('menu')">Menu</li><li onclick="showPage('gallery')">Gallery</li><li onclick="showPage('contact')">Contact</li></ul></div>
+    <div class="footer-col"><h4>Menu</h4><ul><li>Espresso Drinks</li><li>Cold Brew</li><li>Teas &amp; Matcha</li><li>Seasonal Specials</li><li>Pastries &amp; Bites</li></ul></div>
+    <div class="footer-col"><h4>Opening Hours</h4><div class="footer-hours-row"><strong>Mon–Fri</strong><span>7 AM – 10 PM</span></div><div class="footer-hours-row"><strong>Saturday</strong><span>8 AM – 11 PM</span></div><div class="footer-hours-row"><strong>Sunday</strong><span>9 AM – 9 PM</span></div></div>
+  </div><div class="footer-bottom"><span>© 2024 Brew Haven Café.</span><span>Crafted with ☕ in Bengaluru</span></div></footer>
+</div><!-- /page-gallery -->
+
+
+<!-- ╔══════════════════════════════╗
+     ║        CONTACT PAGE         ║
+     ╚══════════════════════════════╝ -->
+<div class="page" id="page-contact">
+  <div class="page-hero"><div class="page-hero-bg"></div>
+    <div class="page-hero-content"><div class="breadcrumb">Home <span>›</span> Contact</div><h1>Find Us</h1><p>We'd love to hear from you — stop by or drop a message</p></div>
+  </div>
+
+  <section class="section">
+    <div class="container">
+      <div class="contact-grid">
+        <!-- Info + Map -->
+        <div class="contact-info reveal">
+          <span class="section-label">Get in Touch</span>
+          <h2>Come Say Hello</h2>
+          <p>Whether you have a question, want to book a private event, or just want to say hi — we're always happy to hear from you.</p>
+          <div class="contact-detail"><div class="contact-icon">📍</div><div class="contact-detail-text"><h4>Address</h4><p>12, Church Street, Near MG Road Metro,<br>Bengaluru, Karnataka – 560001</p></div></div>
+          <div class="contact-detail"><div class="contact-icon">📞</div><div class="contact-detail-text"><h4>Phone</h4><p>+91 98765 43210</p></div></div>
+          <div class="contact-detail"><div class="contact-icon">✉️</div><div class="contact-detail-text"><h4>Email</h4><p>hello@brewhavencafe.in</p></div></div>
+          <div class="contact-detail"><div class="contact-icon">🕐</div><div class="contact-detail-text"><h4>Opening Hours</h4><p>Mon–Fri: 7:00 AM – 10:00 PM<br>Saturday: 8:00 AM – 11:00 PM<br>Sunday: 9:00 AM – 9:00 PM</p></div></div>
+
+          <div class="map-placeholder">
+            <div class="map-frame">
+              <div class="map-grid" style="position:absolute;inset:0"></div>
+              <div class="map-road-h" style="top:38%;left:0;right:0"></div>
+              <div class="map-road-h" style="top:62%;left:0;right:0;height:6px;opacity:.5"></div>
+              <div class="map-road-v" style="left:35%;top:0;bottom:0"></div>
+              <div class="map-road-v" style="left:65%;top:0;bottom:0;width:6px;opacity:.5"></div>
+              <div class="map-road-label" style="top:30%;left:38%">CHURCH STREET</div>
+              <div class="map-road-label" style="top:18%;left:36%;transform:rotate(90deg);transform-origin:left">MG ROAD</div>
+              <div style="position:absolute;top:10%;left:40%;width:22%;height:24%;background:rgba(160,140,100,.2);border-radius:3px;border:1px solid rgba(160,140,100,.3)"></div>
+              <div style="position:absolute;top:10%;left:5%;width:28%;height:26%;background:rgba(160,140,100,.15);border-radius:3px"></div>
+              <div style="position:absolute;top:45%;left:5%;width:28%;height:30%;background:rgba(160,140,100,.15);border-radius:3px"></div>
+              <div style="position:absolute;top:45%;left:68%;width:28%;height:30%;background:rgba(160,140,100,.15);border-radius:3px"></div>
+              <div class="map-pin" style="left:calc(35% - 20px);top:26%">
+                <div class="map-pin-icon"></div>
+                <div class="map-pin-shadow"></div>
+              </div>
+              <div class="map-lbl">📍 Brew Haven Café</div>
+            </div>
+            <div class="map-info-bar">
+              <span>12, Church Street, Bengaluru</span>
+              <a href="https://maps.google.com/?q=Church+Street+Bengaluru" target="_blank" rel="noopener">Open in Google Maps →</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form -->
+        <div class="contact-form reveal">
+          <span class="section-label">Send a Message</span>
+          <h3>We'll get back to you within 24 hours</h3>
+          <p>For event bookings, press enquiries, or general questions — fill in the form below.</p>
+          <form id="contactForm">
+            <div class="form-row">
+              <div class="form-group"><label>First Name</label><input type="text" placeholder="Kavya" required/></div>
+              <div class="form-group"><label>Last Name</label><input type="text" placeholder="Nair" required/></div>
+            </div>
+            <div class="form-group"><label>Email Address</label><input type="email" placeholder="you@example.com" required/></div>
+            <div class="form-group"><label>Phone Number (optional)</label><input type="tel" placeholder="+91 98765 43210"/></div>
+            <div class="form-group"><label>Subject</label>
+              <select><option value="">Select a topic…</option><option>General Enquiry</option><option>Private Event Booking</option><option>Wholesale / Coffee Beans</option><option>Press &amp; Media</option><option>Feedback</option><option>Other</option></select>
+            </div>
+            <div class="form-group"><label>Your Message</label><textarea placeholder="Tell us how we can help…" required></textarea></div>
+            <button type="submit" class="btn btn-primary" style="width:100%">Send Message ✉️</button>
+          </form>
+          <div class="form-success" id="formSuccess">
+            <div class="form-success-icon">☕</div>
+            <h4>Message Received!</h4>
+            <p>Thank you for reaching out. We'll get back to you within 24 hours. In the meantime, why not visit us for a cup?</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="hours-banner"><div class="hours-inner">
+    <div class="hours-title">We're open &amp; waiting for you</div>
+    <div class="hours-grid">
+      <div class="hours-item"><div class="day">Mon – Fri</div><div class="time">7:00 AM – 10:00 PM</div></div>
+      <div class="hours-item"><div class="day">Saturday</div><div class="time">8:00 AM – 11:00 PM</div></div>
+      <div class="hours-item"><div class="day">Sunday</div><div class="time">9:00 AM – 9:00 PM</div></div>
+    </div>
+    <button class="btn" style="background:var(--espresso);color:var(--foam)" onclick="showPage('menu')">See the Menu</button>
+  </div></div>
+
+  <footer class="footer"><div class="footer-grid">
+    <div class="footer-brand"><h3>☕ Brew Haven Café</h3><p>Fresh Coffee, Warm Moments. A community café built on great beans and honest craft.</p><div class="footer-socials"><a>📸</a><a>👥</a><a>🐦</a><a>▶️</a></div></div>
+    <div class="footer-col"><h4>Quick Links</h4><ul><li onclick="showPage('home')">Home</li><li onclick="showPage('about')">About Us</li><li onclick="showPage('menu')">Menu</li><li onclick="showPage('gallery')">Gallery</li><li onclick="showPage('contact')">Contact</li></ul></div>
+    <div class="footer-col"><h4>Menu</h4><ul><li>Espresso Drinks</li><li>Cold Brew</li><li>Teas &amp; Matcha</li><li>Seasonal Specials</li><li>Pastries &amp; Bites</li></ul></div>
+    <div class="footer-col"><h4>Opening Hours</h4><div class="footer-hours-row"><strong>Mon–Fri</strong><span>7 AM – 10 PM</span></div><div class="footer-hours-row"><strong>Saturday</strong><span>8 AM – 11 PM</span></div><div class="footer-hours-row"><strong>Sunday</strong><span>9 AM – 9 PM</span></div></div>
+  </div><div class="footer-bottom"><span>© 2024 Brew Haven Café.</span><span>Crafted with ☕ in Bengaluru</span></div></footer>
+</div><!-- /page-contact -->
+
+
+<!-- ╔══════════════════════════════╗
+     ║       JAVASCRIPT SPA        ║
+     ╚══════════════════════════════╝ -->
+<script>
+// ── Page Router ──────────────────────────────────
+function showPage(name) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('page-' + name).classList.add('active');
+  document.querySelectorAll('.nav-links a').forEach(a => {
+    a.classList.toggle('active', a.dataset.page === name);
+  });
+  // Close mobile menu
+  document.getElementById('navToggle').classList.remove('open');
+  document.getElementById('mobileMenu').classList.remove('open');
+  // Scroll to top
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+  // Re-run reveals for the new page
+  setTimeout(runReveals, 100);
+  // Re-run counters
+  setTimeout(runCounters, 200);
+  // Update URL hash for deep-linking
+  history.pushState(null, '', '#' + name);
+}
+
+// ── Deep-link on load ─────────────────────────────
+(function(){
+  const hash = location.hash.replace('#','');
+  if (hash && document.getElementById('page-' + hash)) showPage(hash);
+})();
+
+// ── Nav scroll effect ────────────────────────────
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 60);
+}, { passive: true });
+
+// ── Hamburger menu ───────────────────────────────
+document.getElementById('navToggle').addEventListener('click', function() {
+  this.classList.toggle('open');
+  document.getElementById('mobileMenu').classList.toggle('open');
+});
+
+// ── Scroll reveal ────────────────────────────────
+function runReveals() {
+  const reveals = document.querySelectorAll('.page.active .reveal:not(.visible)');
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
+  }, { threshold: 0.1 });
+  reveals.forEach(el => obs.observe(el));
+}
+runReveals();
+
+// ── Counters ─────────────────────────────────────
+function runCounters() {
+  document.querySelectorAll('.page.active .stat-num[data-count]').forEach(el => {
+    if (el.dataset.animated) return;
+    el.dataset.animated = '1';
+    const target = parseInt(el.dataset.count);
+    const suffix = el.dataset.suffix || '';
+    let cur = 0;
+    const step = Math.ceil(target / 50);
+    const t = setInterval(() => {
+      cur = Math.min(cur + step, target);
+      el.textContent = cur + suffix;
+      if (cur >= target) clearInterval(t);
+    }, 28);
+  });
+}
+setTimeout(runCounters, 300);
+
+// ── Menu tabs ────────────────────────────────────
+document.addEventListener('click', e => {
+  if (e.target.classList.contains('menu-tab')) {
+    const parent = e.target.closest('.container');
+    parent.querySelectorAll('.menu-tab').forEach(t => t.classList.remove('active'));
+    parent.querySelectorAll('.menu-section').forEach(s => s.classList.remove('active'));
+    e.target.classList.add('active');
+    const section = document.getElementById(e.target.dataset.target);
+    if (section) section.classList.add('active');
+  }
+});
+
+// ── Gallery lightbox ─────────────────────────────
+document.addEventListener('click', e => {
+  const item = e.target.closest('.gallery-item');
+  if (item) {
+    const img = item.querySelector('.gallery-img');
+    const lb = document.getElementById('lightbox');
+    const lbImg = document.getElementById('lbImg');
+    if (lb && lbImg) {
+      lbImg.style.background = img ? getComputedStyle(img).background : '';
+      lbImg.textContent = img ? img.textContent.trim() : '';
+      lb.classList.add('open');
+      document.body.style.overflow = 'hidden';
+    }
+  }
+  if (e.target.id === 'lbClose' || e.target.id === 'lightbox') {
+    document.getElementById('lightbox').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+// ── Contact form ─────────────────────────────────
+const form = document.getElementById('contactForm');
+if (form) {
+  form.addEventListener('submit', e => {
+    e.preventDefault();
+    form.style.display = 'none';
+    document.getElementById('formSuccess').classList.add('show');
+  });
+}
+</script>
+</body>
+</html>
